@@ -1,0 +1,30 @@
+{
+  "name": "tra.b-web-platform-api",
+  "version": "1.0.0",
+  "description": "tra.b-web-platform-api",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "should": "^13.1.3",
+    "supertest": "^3.0.0"
+  },
+  "scripts": {
+    "test": "mocha src/route/users/user.spec.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seungwoohong/Tra.B-web-platform-api.git"
+  },
+  "author": "seungwoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seungwoohong/Tra.B-web-platform-api/issues"
+  },
+  "homepage": "https://github.com/seungwoohong/Tra.B-web-platform-api#readme"
+}
