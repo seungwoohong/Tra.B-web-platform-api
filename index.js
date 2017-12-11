@@ -16,3 +16,5 @@ app.use('/users', user);
 app.listen(3000, function() {
     console.log('server is running port 3000!');
 });
+
+module.exports = app;

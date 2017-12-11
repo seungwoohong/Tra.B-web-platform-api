@@ -1,6 +1,6 @@
 const request = require('supertest');
 const should = require('should');
-const app = require('../../../').default;
+const app = require('../../../');
 
 // GET /
 describe('GET /', () => {
@@ -9,7 +9,7 @@ describe('GET /', () => {
             request(app)
                 .get('/users')
                 .end((err, res) => {
-                    res.body.should.be.instanceOf(Araay);
+                    res.body.should.be.instanceOf(Array);
                     done();
                 });
         });
@@ -79,3 +79,4 @@ describe('POST /', () => {
         });
     });
 });
+// TODO: test code 추가 필요

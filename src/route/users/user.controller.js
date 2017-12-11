@@ -125,7 +125,6 @@ const create = function (req, res) {
 
         return res.status(400).end();
     };
-
     let id = req.body.id;
     let pw = req.body.password;
     let age = req.body.age;
@@ -137,9 +136,14 @@ const create = function (req, res) {
         password: pw,
         age: age
     };
-
     data.push(user);
-    res.status(201);
+    res.status(201).end();
 };
 
-module.exports = {users, select, destory, update, create};
+module.exports = {
+    users:users,
+    select:select,
+    destory:destory, 
+    update:update, 
+    create:create
+};
