@@ -1,4 +1,3 @@
-// 임시 Data
 var data = [
     {
         id: 'test1',
@@ -22,7 +21,11 @@ var data = [
         age: 4
     },
 ];
+// Database
+const database = require('../../database/database.config')
 
+database.connect.query('USE '+database.dbconfig.database)
+//임시 데이터
 /**
  * 유저들 정보 조회
  * @type {Function} users - users select
@@ -36,8 +39,15 @@ const users = function (req, res) {
     if (Number.isNaN(limit)) {
         return res.status(400).end();
     };
-
-    res.json(data.slice(0, limit));
+    database.connect.query("SELECT * FROM user", function(err, rows){
+        if(err){
+            console.log(err)
+            return res.status(400).end();
+        }
+        else{
+            res.json(rows.slice(0,limit))
+        }
+    });
 };
 
 /**
@@ -45,22 +55,30 @@ const users = function (req, res) {
  * @param {Object} req 요청 객체   
  * @param {Object} res 응답 객체
  */
-const select = function (req, res) {;
-    if (!req.params.id && !req.params.password) {
+const select = function (req, res) {
+    
+    if (!req.params.email && !req.params.password) {
         return res.status(400).end();
     }
 
-    let id = req.params.id;
+    let email = req.params.email;
     let pw = req.params.password;
-    let user = data.filter(item => {
-        return item.id === id && item.password === pw
-    })[0];
 
-    if (!user) {
-        return res.status(404).end();
-    }
-
-    res.json(user);
+    database.connect.query("SELECT * FROM user", function(err, rows){
+        if(err){
+            return res.status(400).end();
+        }
+        else{
+            let user = rows.filter(item => {
+                return item.Email === email && item.Password === pw
+            })[0];
+        
+            if (!user) {
+                return res.status(404).end();
+            }
+            return res.json(user);
+        }
+    });
 };
 
 /**

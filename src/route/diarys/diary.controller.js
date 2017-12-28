@@ -58,7 +58,6 @@ const select = function (req, res) {;
 
     let diarycode = req.params.diarycode;
     let diary = data.filter(item => {
-        //Error 발생 ===으로하면 문제발생
         return item.diarycode === parseInt(diarycode)
     })[0];
 
@@ -107,7 +106,6 @@ const update = function (req, res) {
     let comment = req.body.comment;
     let userid = req.body.userid;
     
-    //Error 발생 ===으로하면 문제발생
     let diary = data.filter(item => diaryCode === parent(item.userCode))[0];
     
     diary.diarycode =diarycode;
