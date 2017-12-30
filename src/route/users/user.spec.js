@@ -29,13 +29,20 @@ describe('GET /:id', () => {
     describe('success -', () => {
         it('모든 정보를 가지고 오든가 - ', (done) => {
             request(app)
-                .get('/users/test1/testpw1')
+                .get('/users/test@test.com/1234')
                 .end((err, res) => {
-                    res.body.should.be.property('id', 'test1');
-                    res.body.should.be.property('userCode', 1);
-                    res.body.should.be.property('name', 'hong');
-                    res.body.should.be.property('password', 'testpw1');
-                    res.body.should.be.property('age', 12);
+                    res.body.should.be.property('User_id', 1);
+                    res.body.should.be.property('Email', 'test@test.com');
+                    res.body.should.be.property('Gender', { type: 'Buffer', data: [ 1 ] });
+                    res.body.should.be.property('Password', '1234');
+                    res.body.should.be.property('Create_Date','2017-12-26T15:00:00.000Z' );
+                    res.body.should.be.property('NickName', 'nickname');
+                    res.body.should.be.property('Username', 'username');
+                    res.body.should.be.property('Is_delete', { type: 'Buffer', data: [ 1 ] });
+                    res.body.should.be.property('Account_id', 1);
+                    res.body.should.be.property('Payment_id', 1);
+                    res.body.should.be.property('Birth', '2010-10-09T15:00:00.000Z');
+                    res.body.should.be.property('Auth', 1);
                     done();
                 });
         });
