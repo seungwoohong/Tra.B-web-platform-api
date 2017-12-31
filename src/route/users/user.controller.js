@@ -135,27 +135,70 @@ const update = function (req, res) {
  * @param {Object} res 응답 객체
  */
 const create = function (req, res) {
-    if (!req.body || 
-        !req.body.id || 
-        !req.body.password || 
-        !req.body.age || 
-        !req.body.name) {
-
+    if (
+        !req.body||
+        !req.body.User_id||
+        !req.body.Email||
+        // !req.body.Gender||
+        !req.body.Password||
+        // !req.body.Create_Date||
+        !req.body.NickName||
+        !req.body.Username||
+        // !req.body.Is_delete||
+        // !req.body.Account_id||
+        // !req.body.Payment_id||
+        // !req.body.Birth||
+        !req.body.Auth
+    ) {
+        console.log(res.body)
         return res.status(400).end();
     };
-    let id = req.body.id;
-    let pw = req.body.password;
-    let age = req.body.age;
-    let name = req.body.name;
+    let User_id = parseInt(req.body.User_id)
+    let Email = req.body.Email
+    let Password = req.body.Password
+    let NickName = req.body.NickName
+    let Username = req.body.Username
+    let Account_id = parseInt(req.body.Account_id)||'1'
+    let Payment_id = parseInt(req.body.Payment_id)||"1"
+    let Gender = req.body.Gender||"1"
+    let Create_Date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    let Is_delete = req.body.Is_delete||"0"
+    let Auth = parseInt(req.body.Auth)
+    let Birth = req.body.Birth||"1900-01-01T15:00:00.000Z"
     let user = {
-        id: id,
-        userCode: data.length + 1, 
-        name: name, 
-        password: pw,
-        age: age
+        User_id:User_id,
+        Email:Email,
+        Password:Password,
+        NickName:NickName,
+        Username:Username,
+        Account_id:Account_id,
+        Payment_id:Payment_id,
+        Auth:Auth,
+        Create_Date:Create_Date,
+        Is_delete:Is_delete,
+        Gender:Gender
     };
-    data.push(user);
-    res.status(201).end();
+    console.log(user)
+    database.connect.query("SELECT * FROM user WHERE Email=?",[Email], function(err, rows){
+        if(err){
+            return console.log(err)
+        }
+        if(rows.length){
+            return console.log("this Email already used")
+        }
+        else{
+            database.connect.query("INSERT INTO user (User_id,Email,Password,NickName,Username,Account_id,Payment_id,Auth,Create_Date,Is_delete,Gender) VALUES(?)",[user],function(err,row){
+                if(err){
+                    return console.log(err)
+                }
+                else{
+                    res.json(rows.slice(0,limit))
+                    res.status(201).end();
+                }
+            })
+        }
+    })
+    res.status(400).end();
 };
 
 module.exports = {
