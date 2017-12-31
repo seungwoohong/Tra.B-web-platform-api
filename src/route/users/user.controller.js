@@ -158,13 +158,13 @@ const create = function (req, res) {
     let Password = req.body.Password
     let NickName = req.body.NickName
     let Username = req.body.Username
-    let Account_id = parseInt(req.body.Account_id)||'1'
-    let Payment_id = parseInt(req.body.Payment_id)||"1"
-    let Gender = req.body.Gender||"1"
+    let Account_id = parseInt(req.body.Account_id)||1
+    let Payment_id = parseInt(req.body.Payment_id)||1
+    let Gender = req.body.Gender||1
     let Create_Date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    let Is_delete = req.body.Is_delete||"0"
+    let Is_delete = req.body.Is_delete||0
     let Auth = parseInt(req.body.Auth)
-    let Birth = req.body.Birth||"1900-01-01T15:00:00.000Z"
+    let Birth = req.body.Birth||null
     let user = {
         User_id:User_id,
         Email:Email,
@@ -176,29 +176,34 @@ const create = function (req, res) {
         Auth:Auth,
         Create_Date:Create_Date,
         Is_delete:Is_delete,
-        Gender:Gender
+        Gender:Gender,
+        Birth:Birth
     };
-    console.log(user)
     database.connect.query("SELECT * FROM user WHERE Email=?",[Email], function(err, rows){
         if(err){
             return console.log(err)
+            res.status(400).end();
         }
         if(rows.length){
             return console.log("this Email already used")
+            res.status(400).end();
         }
         else{
-            database.connect.query("INSERT INTO user (User_id,Email,Password,NickName,Username,Account_id,Payment_id,Auth,Create_Date,Is_delete,Gender) VALUES(?)",[user],function(err,row){
+            database.connect.query(
+                "INSERT INTO user (User_id,Email,Password,NickName,Username,Account_id,Payment_id,Auth,Create_Date,Is_delete,Gender,Birth) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                                  [User_id,Email,Password,NickName,Username,Account_id,Payment_id,Auth,Create_Date,Is_delete,Gender,Birth],function(err,rows){
                 if(err){
                     return console.log(err)
+                    res.status(400).end();
                 }
                 else{
-                    res.json(rows.slice(0,limit))
+                    console.log(user)
+                    res.json(user)
                     res.status(201).end();
                 }
             })
         }
     })
-    res.status(400).end();
 };
 
 module.exports = {
