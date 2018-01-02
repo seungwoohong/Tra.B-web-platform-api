@@ -6,7 +6,7 @@ const ctrl = require('./user.controller');
 router.get('/', ctrl.users);
 router.get('/:email/:password/', ctrl.select);
 router.post('/', ctrl.create);
-router.put('/:id', ctrl.update);
-router.delete('/:id', ctrl.destory);
+router.put('/:email', ctrl.update);
+router.delete('/:email', ctrl.destory);
 
 module.exports = router;
