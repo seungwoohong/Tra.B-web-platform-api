@@ -218,8 +218,7 @@ const create = function (req, res) {
                 }
                 else{
                     console.log(user)
-                    res.json(user)
-                    res.status(201).end();
+                    res.status(201).json(user)
                 }
             })
         }

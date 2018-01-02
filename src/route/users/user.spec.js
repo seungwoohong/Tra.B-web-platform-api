@@ -65,11 +65,14 @@ describe('POST /', () => {
             request(app)
                 .post('/users')
                 .send({
-                    id: 'test5',
-                    userCode: 5, 
-                    name: 'hong', 
-                    password: 'testpw1',
-                    age: 12
+                    User_id:106,
+                    Email:"testew@test.net",
+                    Password:"Password",
+                    NickName:"NickName",
+                    Username:"Username",
+                    Account_id:1,
+                    Payment_id:1,
+                    Auth:1,
                 })
                 .expect(201)
                 .end(done) ;
