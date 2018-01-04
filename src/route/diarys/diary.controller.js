@@ -1,12 +1,12 @@
 // 임시 Data
-var data = [
+let data = [
   {
     diarycode: 1,
     title: "testtitle1",
     content: "testcontent1",
     price: 10000,
     comment: [1],
-    userid: 1
+    userid: 1,
   },
   {
     diarycode: 2,
@@ -14,7 +14,7 @@ var data = [
     content: "testcontent2",
     price: 20000,
     comment: [2],
-    userid: 2
+    userid: 2,
   },
   {
     diarycode: 3,
@@ -22,8 +22,8 @@ var data = [
     content: "testcontent3",
     price: 30000,
     comment: [3, 4],
-    userid: 3
-  }
+    userid: 3,
+  },
 ];
 
 /**
@@ -32,7 +32,7 @@ var data = [
  * @param {Object} req 요청 객체
  * @param {Object} res 응답 객체
  */
-const diarys = function(req, res) {
+const diarys = function (req, res) {
   req.query.limit = req.query.limit || 10;
   const limit = parseInt(req.query.limit);
 
@@ -40,7 +40,7 @@ const diarys = function(req, res) {
     return res.status(400).end();
   }
 
-  res.json(data.slice(0, limit));
+  return res.json(data.slice(0, limit));
 };
 
 /**
@@ -48,21 +48,19 @@ const diarys = function(req, res) {
  * @param {Object} req 요청 객체
  * @param {Object} res 응답 객체
  */
-const select = function(req, res) {
+const select = function (req, res) {
   if (!req.params.diarycode) {
     return res.status(400).end();
   }
 
-  let diarycode = req.params.diarycode;
-  let diary = data.filter(item => {
-    return item.diarycode === parseInt(diarycode);
-  })[0];
+  const [diarycode] = req.params.diarycode;
+  const diary = data.filter(item => item.diarycode === parseInt(diarycode))[0];
 
   if (!diary) {
     return res.status(404).end();
   }
 
-  res.json(diary);
+  return res.json(diary);
 };
 
 /**
@@ -71,18 +69,15 @@ const select = function(req, res) {
  * @param {Object} req 요청 객체
  * @param {Object} res 응답 객체
  */
-const destory = function(req, res) {
-  let diaryCode = parseInt(req.params.diaryCode);
-  let index = data.findIndex(item => {
-    return (item.diaryCode = diaryCode);
-  });
-
+const destory = function (req, res) {
+  const diaryCode = parseInt(req.params.diaryCode);
+  const index = data.findIndex(item => item.diaryCode === diaryCode);
   if (!index) {
     return res.status(400).end();
   }
 
   data = data.splice(index, 1);
-  res.status(204).end();
+  return res.status(204).end();
 };
 
 /**
@@ -91,19 +86,19 @@ const destory = function(req, res) {
  * @param {Object} req 요청 객체
  * @param {Object} res 응답 객체
  */
-const update = function(req, res) {
+const update = function (req, res) {
   if (!req.params || !req.body) {
     return res.status(400).end();
   }
 
-  let diaryCode = req.params.diaryCode;
-  let title = req.body.title;
-  let content = req.body.content;
-  let price = req.body.price;
-  let comment = req.body.comment;
-  let userid = req.body.userid;
+  const [diaryCode] = req.params.diaryCode;
+  const [title] = req.body.title;
+  const [content] = req.body.content;
+  const [price] = req.body.price;
+  const [comment] = req.body.comment;
+  const [userid] = req.body.userid;
 
-  let diary = data.filter(item => diaryCode === parent(item.userCode))[0];
+  const diary = data.filter(item => diaryCode === parent(item.userCode))[0];
 
   diary.diarycode = diarycode;
   diary.content = age;
@@ -112,7 +107,7 @@ const update = function(req, res) {
   diary.comment = comment;
   diary.userid = userid;
 
-  res.status(200).json(user);
+  return res.status(200).json(user);
 };
 
 /**
@@ -121,7 +116,7 @@ const update = function(req, res) {
  * @param {Object} req 요청 객체
  * @param {Object} res 응답 객체
  */
-const create = function(req, res) {
+const create = function (req, res) {
   if (
     !req.body ||
     !req.body.diarycode ||
@@ -132,20 +127,20 @@ const create = function(req, res) {
   ) {
     return res.status(400).end();
   }
-  let diarycode = req.body.diarycode;
-  let price = req.body.price;
-  let title = req.body.title;
-  let content = req.body.content;
-  let userid = req.body.userid;
-  let diary = {
+  const [diarycode] = req.body.diarycode;
+  const [price] = req.body.price;
+  const [title] = req.body.title;
+  const [content] = req.body.content;
+  const [userid] = req.body.userid;
+  const diary = {
     diarycode: data.length + 1,
     title: title,
     price: price,
     content: content,
-    userid: userid
+    userid: userid,
   };
   data.push(diary);
-  res.status(201).end();
+  return res.status(201).end();
 };
 
 module.exports = {
@@ -153,5 +148,5 @@ module.exports = {
   select: select,
   destory: destory,
   update: update,
-  create: create
+  create: create,
 };

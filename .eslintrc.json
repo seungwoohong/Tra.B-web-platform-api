@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "quotes": "off",
+    "linebreak-style": "off",
+    "object-shorthand": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "func-names": "off",
+    "radix": "off",
+    "no-restricted-globals": "off",
+    "consistent-return": "off",
+    "camelcase": "off",
+    "global-require": "off",
+    "import/no-dynamic-require": "off"
+  }
+}

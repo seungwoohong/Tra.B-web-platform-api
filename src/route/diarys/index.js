@@ -1,6 +1,7 @@
 const express = require("express");
-const router = express.Router();
 const ctrl = require("./diary.controller");
+
+const router = express.Router();
 
 // Route Setting
 router.get("/", ctrl.diarys);

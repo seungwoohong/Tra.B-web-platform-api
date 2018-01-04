@@ -5,7 +5,7 @@ const app = require("../../../");
 // GET /
 describe("GET /", () => {
   describe("success -", () => {
-    it("타입이 배열 인가 - ", done => {
+    it("타입이 배열 인가 - ", (done) => {
       request(app)
         .get("/diarys")
         .end((err, res) => {
@@ -15,7 +15,7 @@ describe("GET /", () => {
     });
   });
   describe("fail -", () => {
-    it("limit 이 숫자가 아닐 경우", done => {
+    it("limit 이 숫자가 아닐 경우", (done) => {
       request(app)
         .get("/diarys/?limit=test")
         .expect(400)
@@ -27,7 +27,7 @@ describe("GET /", () => {
 // GET /:id/:password
 describe("GET /:id", () => {
   describe("success -", () => {
-    it("모든 정보를 가지고 오든가 - ", done => {
+    it("모든 정보를 가지고 오든가 - ", (done) => {
       request(app)
         .get("/diarys/1")
         .end((err, res) => {
@@ -42,7 +42,7 @@ describe("GET /:id", () => {
     });
   });
   describe("fail -", () => {
-    it("게시물을 찾지 못 할 경우 404", done => {
+    it("게시물을 찾지 못 할 경우 404", (done) => {
       request(app)
         .get("/diarys/test")
         .expect(404)
@@ -54,7 +54,7 @@ describe("GET /:id", () => {
 // POST /
 describe("POST /", () => {
   describe("success -", () => {
-    it("정보가 잘 생성 되었을 경우 200 - ", done => {
+    it("정보가 잘 생성 되었을 경우 200 - ", (done) => {
       request(app)
         .post("/diarys")
         .send({
@@ -63,7 +63,7 @@ describe("POST /", () => {
           content: "test",
           comment: [7],
           price: 120000,
-          userid: 12
+          userid: 12,
         })
         .expect(201)
         .end(done);
@@ -71,7 +71,7 @@ describe("POST /", () => {
   });
 
   describe("fail -", () => {
-    it("파라메터 누락", done => {
+    it("파라메터 누락", (done) => {
       request(app)
         .post("/diarys")
         .send({})
