@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const router = require("./src/route");
-
+const fs = require("fs");
 const app = express();
+
+// router path
+const api = './src/route/';
 
 // MiddleWare
 app.use(bodyParser.json());
@@ -12,11 +14,8 @@ app.use(bodyParser.urlencoded({
 
 // Routing
 // TODO: 폴더 구조 조정하기
-router.forEach((route) => {
-  console.log(route);
-  if (route !== "index.js") {
-    const routeElement = require(`./src/route/${route}`);
-    app.use(`/${route}`, routeElement);
-  }
+fs.readdirSync(api).forEach(route => {
+  app.use('/' + route, require(api + route));
 });
+
 module.exports = app;

@@ -1,7 +1,7 @@
 // Database
-const database = require("../../database/database.config");
+const db = require("../../config/database.config");
+const pool = db.connect;
 
-database.connect.query(`USE ${database.dbconfig.database}`);
 /**
  * 유저들 정보 조회
  * @type {Function} users - users select
@@ -15,7 +15,7 @@ const users = function (req, res) {
   if (Number.isNaN(limit)) {
     return res.status(400).end();
   }
-  database.connect.query("SELECT * FROM user", (err, rows) => {
+  pool.query(`SELECT * FROM ${db.TRA_B_SCHEMA}.user`, (err, rows) => {
     if (err) {
       console.log(err);
       return res.status(400).end();
@@ -37,7 +37,7 @@ const select = function (req, res) {
   const [email] = req.params.email;
   const pw = req.params.password;
 
-  database.connect.query("SELECT * FROM user", (err, rows) => {
+  pool.query(`SELECT * FROM ${db.TRA_B_SCHEMA}.user`, (err, rows) => {
     if (err) {
       return res.status(400).end();
     }
@@ -61,14 +61,14 @@ const destory = function (req, res) {
     return res.status(400).end();
   }
   const [email] = req.params.email;
-  database.connect.query("SELECT * FROM user WHERE user.email=?", [email], (err, rows) => {
+  pool.query(`SELECT * FROM ${db.TRA_B_SCHEMA}.user as a WHERE a.email = ?`, [email], (err, rows) => {
     if (err) {
       console.log(err);
       console.log(`can not find user such as email:${email}`);
       return res.status(400).end();
     }
-    // TODO: 삭제된거가 다시 삭제됨
-    database.connect.query("DELETE FROM user WHERE user.email=?", [email], (innererr) => {
+
+    pool.query(`DELETE FROM ${db.TRA_B_SCHEMA}.user as a WHERE a.email=?`, [email], (innererr) => {
       if (innererr) {
         console.log(innererr);
       } else {
@@ -91,7 +91,7 @@ const update = function (req, res) {
     return res.status(400).end();
   }
   const [email] = req.params.email;
-  database.connect.query("SELECT * FROM user WHERE user.email=?", [email], (err, rows) => {
+  pool.query(`SELECT * FROM ${db.TRA_B_SCHEMA}.user as a WHERE a.email=?`, [email], (err, rows) => {
     if (err) {
       console.log("Email did not found");
       return res.status(400).end();
@@ -126,8 +126,8 @@ const update = function (req, res) {
       Gender: Gender,
       Birth: Birth,
     };
-    database.connect.query(
-      "UPDATE user SET NickName=? WHERE email=?",
+    pool.query(
+      `UPDATE ${db.TRA_B_SCHEMA}.user SET NickName=? WHERE email=?`,
       [NickName, email],
       (innererr) => {
         if (innererr) {
@@ -198,7 +198,7 @@ const create = function (req, res) {
     Gender: Gender,
     Birth: Birth,
   };
-  database.connect.query("SELECT * FROM user WHERE Email=?", [Email], (err, rows) => {
+  pool.query(`SELECT * FROM ${db.TRA_B_SCHEMA}.user WHERE Email=?`, [Email], (err, rows) => {
     if (err) {
       console.log(err);
       return res.status(400).end();
@@ -207,8 +207,8 @@ const create = function (req, res) {
       console.log("this Email already used");
       return res.status(400).end();
     }
-    database.connect.query(
-      "INSERT INTO user (User_id,Email,Password,NickName,Username,Account_id,Payment_id,Auth,Create_Date,Is_delete,Gender,Birth) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+    pool.query(
+      `INSERT INTO ${db.TRA_B_SCHEMA}.user (User_id,Email,Password,NickName,Username,Account_id,Payment_id,Auth,Create_Date,Is_delete,Gender,Birth) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
       [
         User_id,
         Email,
