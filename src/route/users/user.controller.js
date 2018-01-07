@@ -130,7 +130,7 @@ const update = function (req, res) {
       "UPDATE user SET NickName=? WHERE email=?",
       [NickName, email],
       (innererr) => {
-        if (err) {
+        if (innererr) {
           console.log(innererr);
           console.log("UPDATE ERR");
           res.status(400).end();
@@ -138,7 +138,7 @@ const update = function (req, res) {
           console.log("Success to Update");
           res.status(200).json(user);
         }
-      },
+      }
     );
   });
 };
@@ -230,7 +230,7 @@ const create = function (req, res) {
         }
         console.log(user);
         return res.status(201).json(user);
-      },
+      }
     );
   });
 };
